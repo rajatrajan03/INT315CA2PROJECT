@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INT315 Cluster Computing CA2</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container">
+        <h1>INT315 Cluster Computing CA2</h1>
+        <p>Online Learning Platform Interaction Analysis</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero card reveal">
+        <div>
+          <h2>Project Overview</h2>
+          <p>
+            This project analyzes student interaction networks from online learning data
+            using PySpark, graph-based processing, and basic network analysis.
+          </p>
+          <p>
+            The work includes cleaning the raw network files, transforming them into
+            student and interaction records, identifying active and isolated students,
+            and producing visual network diagrams for each dataset.
+          </p>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <div class="card stat reveal">
+          <h3>CD</h3>
+          <p>735 interactions</p>
+          <span>1457 total weight</span>
+        </div>
+        <div class="card stat reveal">
+          <h3>ICS</h3>
+          <p>1148 interactions</p>
+          <span>2446 total weight</span>
+        </div>
+        <div class="card stat reveal">
+          <h3>PS</h3>
+          <p>1258 interactions</p>
+          <span>2653 total weight</span>
+        </div>
+      </section>
+
+      <section class="card reveal">
+        <h2>Most Active Students</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Network</th>
+              <th>Student</th>
+              <th>Interactions</th>
+              <th>Total Weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ICS</td>
+              <td>S107</td>
+              <td>57</td>
+              <td>125</td>
+            </tr>
+            <tr>
+              <td>PS</td>
+              <td>S107</td>
+              <td>55</td>
+              <td>125</td>
+            </tr>
+            <tr>
+              <td>ICS</td>
+              <td>S70</td>
+              <td>48</td>
+              <td>105</td>
+            </tr>
+            <tr>
+              <td>PS</td>
+              <td>S133</td>
+              <td>43</td>
+              <td>92</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card reveal">
+        <h2>Isolated Students</h2>
+        <p>
+          Students with zero recorded interaction activity were identified and saved in
+          the analysis results. These are students who are not connected to the network
+          in the current interaction data.
+        </p>
+      </section>
+
+      <section class="gallery">
+        <div class="card image-card reveal">
+          <h3>ICS Network</h3>
+          <img class="graph-preview" src="assets/network_ICS.png" alt="ICS interaction network" data-image="assets/network_ICS.png" data-title="ICS interaction network" />
+        </div>
+        <div class="card image-card reveal">
+          <h3>CD Network</h3>
+          <img class="graph-preview" src="assets/network_CD.png" alt="CD interaction network" data-image="assets/network_CD.png" data-title="CD interaction network" />
+        </div>
+        <div class="card image-card reveal">
+          <h3>PS Network</h3>
+          <img class="graph-preview" src="assets/network_PS.png" alt="PS interaction network" data-image="assets/network_PS.png" data-title="PS interaction network" />
+        </div>
+      </section>
+
+      <section class="card reveal">
+        <h2>Files Produced</h2>
+        <ul class="file-list">
+          <li><button class="file-link" data-file="data/students.csv" data-label="students.csv">students.csv</button></li>
+          <li><button class="file-link" data-file="data/interactions.csv" data-label="interactions.csv">interactions.csv</button></li>
+          <li><button class="file-link" data-file="data/student_activity.csv" data-label="student_activity.csv">student_activity.csv</button></li>
+          <li><button class="file-link" data-file="data/most_active_students.csv" data-label="most_active_students.csv">most_active_students.csv</button></li>
+          <li><button class="file-link" data-file="data/isolated_students.csv" data-label="isolated_students.csv">isolated_students.csv</button></li>
+          <li><button class="file-link" data-file="data/" data-label="network_summary">network_summary/</button></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>INT315 CA2 Project • Spark and Network Analysis</p>
+      </div>
+    </footer>
+
+    <div class="modal" id="graphModal" aria-hidden="true">
+      <div class="modal-content graph-modal-content">
+        <button class="close-btn" aria-label="Close">×</button>
+        <div class="modal-header">
+          <h3 id="graphTitle">Network</h3>
+          <div class="toolbar">
+            <button data-zoom="-1">−</button>
+            <button data-zoom="1">+</button>
+          </div>
+        </div>
+        <div class="image-wrapper">
+          <img id="graphImage" src="" alt="Network graph" />
+        </div>
+        <a id="graphDownload" class="download-btn" download>Download</a>
+      </div>
+    </div>
+
+    <div class="modal" id="contentModal" aria-hidden="true">
+      <div class="modal-content table-modal-content">
+        <button class="close-btn" aria-label="Close">×</button>
+        <div class="modal-header">
+          <h3 id="modalTitle">Data Preview</h3>
+          <a id="modalDownload" class="download-btn" download>Download</a>
+        </div>
+        <div id="modalBody" class="modal-body"></div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

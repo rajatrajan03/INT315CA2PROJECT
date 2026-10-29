@@ -122,7 +122,7 @@
         </div>
       </section>
 
-      <section class="section-card reveal">
+      <section class="section-card reveal output-section">
         <div class="section-head">
           <h2>Output Files</h2>
         </div>
@@ -134,8 +134,108 @@
             <li><button class="file-link" data-file="data/student_activity.csv" data-label="student_activity.csv">student_activity.csv</button></li>
             <li><button class="file-link" data-file="data/most_active_students.csv" data-label="most_active_students.csv">most_active_students.csv</button></li>
             <li><button class="file-link" data-file="data/isolated_students.csv" data-label="isolated_students.csv">isolated_students.csv</button></li>
-            <li><button class="file-link" data-file="data/" data-label="network_summary">network_summary/</button></li>
+            <li><button class="file-link" data-file="data/network_summary/" data-label="network_summary">network_summary/</button></li>
           </ul>
+        </div>
+      </section>
+
+      <section class="section-card reveal ml-section">
+        <div class="section-head">
+          <h2>ML Results</h2>
+        </div>
+
+        <div class="ml-grid">
+          <div class="card ml-card">
+            <h3>Linear Regression</h3>
+            <p class="model-summary">
+              This model predicts a student’s total interaction weight using features like interaction count and network type.
+              It learns the relationship between these features and the target value <strong>total_weight</strong>.
+            </p>
+            <ul class="model-info">
+              <li><strong>Model type:</strong> Linear Regression</li>
+              <li><strong>Target:</strong> total_weight</li>
+              <li><strong>Features:</strong> interaction_count + network</li>
+              <li><strong>Split:</strong> 80% train / 20% test</li>
+              <li><strong>Goal:</strong> Predict student interaction strength</li>
+            </ul>
+            <div class="metric-box">
+              <div class="metric-row"><span>MAE</span><strong>5.1483</strong></div>
+              <div class="metric-row"><span>RMSE</span><strong>7.6487</strong></div>
+              <div class="metric-row"><span>R²</span><strong>0.8930</strong></div>
+            </div>
+            <div class="ml-actions">
+              <button class="file-link" data-file="data/linear_regression_metrics.csv" data-label="linear_regression_metrics.csv">Metrics</button>
+              <button class="file-link" data-file="data/linear_regression_predictions.csv" data-label="linear_regression_predictions.csv">Predictions</button>
+            </div>
+          </div>
+
+          <div class="card ml-card">
+            <h3>Decision Tree</h3>
+            <p class="model-summary">
+              This model also predicts a student’s total interaction weight, but it learns a tree-based decision pattern instead of a straight-line equation.
+              It is useful for capturing non-linear relationships in the same dataset.
+            </p>
+            <ul class="model-info">
+              <li><strong>Model type:</strong> Decision Tree Regressor</li>
+              <li><strong>Target:</strong> total_weight</li>
+              <li><strong>Features:</strong> interaction_count + network</li>
+              <li><strong>Split:</strong> 80% train / 20% test</li>
+              <li><strong>Goal:</strong> Capture non-linear interaction patterns</li>
+            </ul>
+            <div class="metric-box">
+              <div class="metric-row"><span>MAE</span><strong>5.0199</strong></div>
+              <div class="metric-row"><span>RMSE</span><strong>7.8983</strong></div>
+              <div class="metric-row"><span>R²</span><strong>0.8859</strong></div>
+            </div>
+            <div class="ml-actions">
+              <button class="file-link" data-file="data/decision_tree_metrics.csv" data-label="decision_tree_metrics.csv">Metrics</button>
+              <button class="file-link" data-file="data/decision_tree_predictions.csv" data-label="decision_tree_predictions.csv">Predictions</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card reveal conclusion-section">
+        <div class="section-head">
+          <h2>Model Conclusion</h2>
+        </div>
+
+        <div class="comparison-box">
+          <p>
+            <strong>Linear Regression</strong> performed slightly better than <strong>Decision Tree</strong> on this dataset.
+            It achieved a higher R² value and lower RMSE, which shows that it explained the relationship between student activity and interaction weight more effectively.
+          </p>
+
+          <div class="comparison-table-wrap">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>MAE</th>
+                  <th>RMSE</th>
+                  <th>R²</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Linear Regression</td>
+                  <td>5.1483</td>
+                  <td>7.6487</td>
+                  <td>0.8930</td>
+                </tr>
+                <tr>
+                  <td>Decision Tree</td>
+                  <td>5.0199</td>
+                  <td>7.8983</td>
+                  <td>0.8859</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="conclusion-final">
+            Overall, <strong>Linear Regression</strong> is the better model for predicting total interaction weight in this dataset.
+          </p>
         </div>
       </section>
     </main>

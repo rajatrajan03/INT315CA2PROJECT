@@ -266,7 +266,6 @@ http://localhost:8000
 ## Dataset
 
 - Dataset name: Anonymous networks of student interactions
-- Danish title: Anonyme netværk af studerendes interaktioner
 - Source: KU Research Profiles
 - URL: https://researchprofiles.ku.dk/en/datasets/anonyme-netv%C3%A6rk-af-studerendes-interaktioner/
 

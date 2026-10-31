@@ -263,6 +263,17 @@ http://localhost:8000
 
 ---
 
+## Dataset
+
+- Dataset name: Anonymous networks of student interactions
+- Danish title: Anonyme netværk af studerendes interaktioner
+- Source: KU Research Profiles
+- URL: https://researchprofiles.ku.dk/en/datasets/anonyme-netv%C3%A6rk-af-studerendes-interaktioner/
+
+This project uses the anonymized student interaction network dataset from the source above to analyze student communication patterns, network structure, activity levels, and predictive modeling of interaction strength.
+
+---
+
 ## Final Notes
 
 This project combines data engineering, graph analytics, and machine learning in a beginner-friendly structure. It is designed to demonstrate how raw interaction data can be transformed into meaningful insights through connected network analysis and predictive modeling.

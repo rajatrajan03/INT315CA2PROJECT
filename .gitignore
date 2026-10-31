@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.pyre/
+*.egg-info/
+build/
+dist/
+
+# Jupyter / notebooks
+.ipynb_checkpoints/
+
+# VS Code / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+
+# Spark / local runtime artifacts
+spark-warehouse/
+metastore_db/
+derby.log
+spark-logs/
+checkpoint/
+*.crc
+part-*
+_SUCCESS
+
+# Logs
+*.log

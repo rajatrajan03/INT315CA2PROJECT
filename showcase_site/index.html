@@ -148,7 +148,7 @@
           <div class="card ml-card">
             <h3>Linear Regression</h3>
             <p class="model-summary">
-              This model predicts a student’s total interaction weight using features like interaction count and network type.
+              This model predicts the total interaction weight of each student using features such as the number of interactions and the network type.
               It learns the relationship between these features and the target value <strong>total_weight</strong>.
             </p>
             <ul class="model-info">
@@ -156,7 +156,7 @@
               <li><strong>Target:</strong> total_weight</li>
               <li><strong>Features:</strong> interaction_count + network</li>
               <li><strong>Split:</strong> 80% train / 20% test</li>
-              <li><strong>Goal:</strong> Predict student interaction strength</li>
+              <li><strong>Purpose:</strong> Predict student interaction strength</li>
             </ul>
             <div class="metric-box">
               <div class="metric-row"><span>MAE</span><strong>5.1483</strong></div>
@@ -172,15 +172,15 @@
           <div class="card ml-card">
             <h3>Decision Tree</h3>
             <p class="model-summary">
-              This model also predicts a student’s total interaction weight, but it learns a tree-based decision pattern instead of a straight-line equation.
-              It is useful for capturing non-linear relationships in the same dataset.
+              This model also predicts a student’s total interaction weight, but it learns a decision-based pattern instead of a straight-line equation.
+              It is useful for capturing non-linear relationships between student activity and network behavior.
             </p>
             <ul class="model-info">
               <li><strong>Model type:</strong> Decision Tree Regressor</li>
               <li><strong>Target:</strong> total_weight</li>
               <li><strong>Features:</strong> interaction_count + network</li>
               <li><strong>Split:</strong> 80% train / 20% test</li>
-              <li><strong>Goal:</strong> Capture non-linear interaction patterns</li>
+              <li><strong>Purpose:</strong> Capture non-linear interaction patterns</li>
             </ul>
             <div class="metric-box">
               <div class="metric-row"><span>MAE</span><strong>5.0199</strong></div>
@@ -203,7 +203,7 @@
         <div class="comparison-box">
           <p>
             <strong>Linear Regression</strong> performed slightly better than <strong>Decision Tree</strong> on this dataset.
-            It achieved a higher R² value and lower RMSE, which shows that it explained the relationship between student activity and interaction weight more effectively.
+            It achieved a higher R² value and lower RMSE, which means it explained the relationship between student activity and total interaction weight more effectively.
           </p>
 
           <div class="comparison-table-wrap">
@@ -234,7 +234,7 @@
           </div>
 
           <p class="conclusion-final">
-            Overall, <strong>Linear Regression</strong> is the better model for predicting total interaction weight in this dataset.
+            Overall, <strong>Linear Regression</strong> is the better-performing model for predicting total interaction weight in this dataset.
           </p>
         </div>
       </section>

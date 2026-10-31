@@ -1,9 +1,4 @@
-"""Simple Decision Tree Regression model for student interaction activity.
-
-This module is separate from Spark graph-analysis scripts.
-It reads processed student activity data, trains a Decision Tree regressor,
-and saves metrics and predictions in the output folder.
-"""
+"""Decision Tree model for predicting student interaction weight."""
 
 import shutil
 from pathlib import Path
@@ -24,7 +19,7 @@ SITE_ASSET_DIR = PROJECT_DIR / "showcase_site" / "assets"
 
 
 def load_student_activity_data():
-    """Load student-level activity data prepared by the project pipeline."""
+    """Load the processed student activity dataset."""
     if not STUDENT_ACTIVITY_PATH.exists():
         raise FileNotFoundError(
             f"Required file not found: {STUDENT_ACTIVITY_PATH}. "
@@ -35,17 +30,7 @@ def load_student_activity_data():
 
 
 def prepare_features_and_target(df):
-    """Prepare model features and target with basic missing-value handling.
-
-    Target:
-    - total_weight
-
-    Features:
-    - interaction_count
-    - network (one-hot encoded)
-
-    This avoids data leakage because total_weight is only used as target.
-    """
+    """Prepare model features and target."""
     working_df = df.copy()
     working_df = working_df.dropna(subset=["total_weight", "interaction_count", "network"])
 
@@ -60,7 +45,7 @@ def prepare_features_and_target(df):
 
 
 def save_plot(fig, file_name):
-    """Save a plot in the output folder and in the site assets folder."""
+    """Save a plot to the output folder and site assets."""
     PLOT_DIR.mkdir(parents=True, exist_ok=True)
     SITE_ASSET_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -72,7 +57,7 @@ def save_plot(fig, file_name):
 
 
 def save_model_visuals(model, X_test, y_test, predictions):
-    """Create plots that explain how the tree-based model behaves."""
+    """Create evaluation plots."""
     fig, ax = plt.subplots(figsize=(7, 6))
     ax.scatter(y_test, predictions, alpha=0.8, color="#1f5f99")
     min_value = min(y_test.min(), predictions.min())
@@ -104,7 +89,7 @@ def save_model_visuals(model, X_test, y_test, predictions):
 
 
 def train_and_evaluate_model(X, y):
-    """Train DecisionTreeRegressor and compute evaluation metrics."""
+    """Train the tree model and compute metrics."""
     X_train, X_test, y_train, y_test = train_test_split(
         X,
         y,
@@ -114,7 +99,6 @@ def train_and_evaluate_model(X, y):
 
     model = DecisionTreeRegressor(random_state=42, max_depth=5)
     model.fit(X_train, y_train)
-
     predictions = model.predict(X_test)
 
     mae = mean_absolute_error(y_test, predictions)
@@ -129,7 +113,7 @@ def train_and_evaluate_model(X, y):
 
 
 def save_outputs(metrics_dict, results_df):
-    """Save model metrics and test predictions to CSV files."""
+    """Save metrics and predictions."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     metrics_df = pd.DataFrame(
@@ -156,19 +140,15 @@ def save_outputs(metrics_dict, results_df):
 
 
 def main():
-    """Run the Decision Tree regression workflow."""
+    """Run the Decision Tree workflow."""
     print("Loading student activity data...")
     student_df = load_student_activity_data()
 
     print("Preparing features and target...")
     X, y, prepared_df = prepare_features_and_target(student_df)
 
-    # Protect against tiny/invalid datasets.
     if len(X) < 5:
-        print(
-            "Warning: Dataset is too small for a meaningful Decision Tree model "
-            f"(valid rows: {len(X)})."
-        )
+        print("Warning: Dataset is too small for a meaningful model.")
         return
 
     print("Training Decision Tree model...")

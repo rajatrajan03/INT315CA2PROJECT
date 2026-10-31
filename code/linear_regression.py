@@ -1,9 +1,4 @@
-"""Simple Linear Regression model for student interaction activity.
-
-This module is intentionally separate from the Spark graph-analysis code.
-It reads the processed student activity dataset, trains a linear regression model,
-and saves evaluation metrics and predictions to the output folder.
-"""
+"""Linear Regression model for predicting student interaction weight."""
 
 import shutil
 from pathlib import Path
@@ -24,11 +19,7 @@ SITE_ASSET_DIR = PROJECT_DIR / "showcase_site" / "assets"
 
 
 def load_student_activity_data():
-    """Load the processed student activity dataset.
-
-    We use this file because it already contains both the student-level activity
-    summary and the target variable we want to predict: total_weight.
-    """
+    """Load the processed student activity dataset."""
     if not STUDENT_ACTIVITY_PATH.exists():
         raise FileNotFoundError(
             f"Required file not found: {STUDENT_ACTIVITY_PATH}. "
@@ -36,28 +27,14 @@ def load_student_activity_data():
         )
 
     df = pd.read_csv(STUDENT_ACTIVITY_PATH)
-
-    # Keep the model simple and easy to understand.
-    # We predict total interaction weight using interaction_count and the network type.
-    # The target (total_weight) is not used as an input feature.
     return df
 
 
 def prepare_features_and_target(df):
-    """Prepare the regression dataset.
-
-    This keeps the model beginner-friendly:
-    - target: total_weight
-    - features: interaction_count + one-hot encoded network
-
-    We avoid leakage by ensuring total_weight is never used as a predictor.
-    """
+    """Prepare target and features for the model."""
     working_df = df.copy()
-
-    # Handle missing values safely.
     working_df = working_df.dropna(subset=["total_weight", "interaction_count"])
 
-    # The network is categorical, so we convert it into dummy variables.
     features_df = pd.get_dummies(
         working_df[["network", "interaction_count"]],
         columns=["network"],
@@ -65,12 +42,11 @@ def prepare_features_and_target(df):
     )
 
     target = working_df["total_weight"]
-
     return features_df, target, working_df
 
 
 def save_plot(fig, file_name):
-    """Save a plot in both the output folder and the site assets folder."""
+    """Save a plot to the output folder and site assets."""
     PLOT_DIR.mkdir(parents=True, exist_ok=True)
     SITE_ASSET_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -82,7 +58,7 @@ def save_plot(fig, file_name):
 
 
 def save_model_visuals(model, X_test, y_test, predictions):
-    """Create beginner-friendly visualizations for the model evaluation."""
+    """Create evaluation plots."""
     fig, ax = plt.subplots(figsize=(7, 6))
     ax.scatter(y_test, predictions, alpha=0.8, color="#2d6fa5")
     min_value = min(y_test.min(), predictions.min())
@@ -114,7 +90,7 @@ def save_model_visuals(model, X_test, y_test, predictions):
 
 
 def train_and_evaluate_model(X, y):
-    """Train a LinearRegression model and return metrics."""
+    """Train the model and return evaluation metrics."""
     X_train, X_test, y_train, y_test = train_test_split(
         X,
         y,
@@ -124,7 +100,6 @@ def train_and_evaluate_model(X, y):
 
     model = LinearRegression()
     model.fit(X_train, y_train)
-
     predictions = model.predict(X_test)
 
     mae = mean_absolute_error(y_test, predictions)
@@ -139,7 +114,7 @@ def train_and_evaluate_model(X, y):
 
 
 def save_outputs(metrics_dict, actual_values, predicted_values, student_info):
-    """Save evaluation results and prediction outputs to the output folder."""
+    """Save evaluation metrics and predictions."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     metrics_df = pd.DataFrame(
@@ -166,7 +141,7 @@ def save_outputs(metrics_dict, actual_values, predicted_values, student_info):
 
 
 def main():
-    """Run the full Linear Regression workflow."""
+    """Run the full training workflow."""
     print("Loading student activity data...")
     student_df = load_student_activity_data()
 
@@ -174,10 +149,7 @@ def main():
     X, y, prepared_df = prepare_features_and_target(student_df)
 
     if X.empty or y.empty:
-        print(
-            "Warning: The dataset does not contain enough valid rows for a meaningful "
-            "regression model. Please check the output/student_activity.csv file."
-        )
+        print("Warning: Not enough valid data for regression.")
         return
 
     print("Training Linear Regression model...")

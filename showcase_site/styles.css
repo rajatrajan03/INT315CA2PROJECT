@@ -16,7 +16,7 @@ body {
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 20px 0 0;
 }
 
 main {
@@ -631,6 +631,53 @@ th {
   text-transform: uppercase;
   position: relative;
   z-index: 1;
+}
+
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: linear-gradient(180deg, #f8fbff, #eef6ff);
+  border: 1px solid #dfeaf7;
+  border-radius: 12px;
+  padding: 12px 10px;
+}
+
+.flow-step {
+  min-width: 90px;
+  padding: 10px 12px;
+  border: 1px solid #cfe0f5;
+  border-radius: 10px;
+  background: #ffffff;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(21, 48, 72, 0.04);
+}
+
+.flow-step.outcome {
+  background: #eaf7f2;
+  border-color: #bfe0d2;
+}
+
+.flow-title {
+  display: block;
+  font-weight: 700;
+  color: #1f4d78;
+  font-size: 0.82rem;
+}
+
+.flow-step small {
+  display: block;
+  margin-top: 4px;
+  color: #52657b;
+  font-size: 0.68rem;
+}
+
+.flow-arrow {
+  font-size: 1.2rem;
+  color: #54789b;
+  font-weight: 700;
 }
 
 @media (max-width: 700px) {

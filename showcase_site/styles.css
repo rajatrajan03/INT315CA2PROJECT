@@ -225,14 +225,13 @@ th {
 .hero {
   background: linear-gradient(135deg, #143b59, #2d6fa5);
   color: white;
-  padding: 52px 28px 44px;
+  padding: 42px 28px 36px;
   border-radius: 18px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(21, 48, 72, 0.12);
   margin-bottom: 22px;
   margin-top: 4px;
-  padding-top: 10px;
 }
 
 .hero::before {
@@ -251,14 +250,14 @@ th {
 .hero h1 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .hero p {
-  margin: 14px 0 0;
+  margin: 12px 0 0;
   max-width: 760px;
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.92);
 }
 
@@ -611,11 +610,11 @@ th {
 }
 
 .project-summary-text {
-  margin-top: 16px;
+  margin-top: 14px;
   max-width: 840px;
-  line-height: 1.7;
+  line-height: 1.65;
   color: rgba(255, 255, 255, 0.95);
-  font-size: 1.02rem;
+  font-size: 0.98rem;
 }
 
 .hero-badge {

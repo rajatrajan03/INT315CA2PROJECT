@@ -5,8 +5,10 @@ It reads the processed student activity dataset, trains a linear regression mode
 and saves evaluation metrics and predictions to the output folder.
 """
 
+import shutil
 from pathlib import Path
 
+import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -17,6 +19,8 @@ OUTPUT_DIR = PROJECT_DIR / "output"
 STUDENT_ACTIVITY_PATH = OUTPUT_DIR / "student_activity.csv"
 METRICS_PATH = OUTPUT_DIR / "linear_regression_metrics.csv"
 PREDICTIONS_PATH = OUTPUT_DIR / "linear_regression_predictions.csv"
+PLOT_DIR = OUTPUT_DIR / "linear_regression_plots"
+SITE_ASSET_DIR = PROJECT_DIR / "showcase_site" / "assets"
 
 
 def load_student_activity_data():
@@ -63,6 +67,50 @@ def prepare_features_and_target(df):
     target = working_df["total_weight"]
 
     return features_df, target, working_df
+
+
+def save_plot(fig, file_name):
+    """Save a plot in both the output folder and the site assets folder."""
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
+    SITE_ASSET_DIR.mkdir(parents=True, exist_ok=True)
+
+    output_path = PLOT_DIR / file_name
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=200)
+    shutil.copy2(output_path, SITE_ASSET_DIR / file_name)
+    plt.close(fig)
+
+
+def save_model_visuals(model, X_test, y_test, predictions):
+    """Create beginner-friendly visualizations for the model evaluation."""
+    fig, ax = plt.subplots(figsize=(7, 6))
+    ax.scatter(y_test, predictions, alpha=0.8, color="#2d6fa5")
+    min_value = min(y_test.min(), predictions.min())
+    max_value = max(y_test.max(), predictions.max())
+    ax.plot([min_value, max_value], [min_value, max_value], "r--", linewidth=1.5)
+    ax.set_xlabel("Actual total_weight")
+    ax.set_ylabel("Predicted total_weight")
+    ax.set_title("Linear Regression: Actual vs Predicted")
+    save_plot(fig, "linear_regression_actual_vs_predicted.png")
+
+    residuals = y_test.to_numpy() - predictions
+    fig, ax = plt.subplots(figsize=(7, 6))
+    ax.scatter(predictions, residuals, alpha=0.8, color="#4c8d7c")
+    ax.axhline(0, color="black", linestyle="--", linewidth=1.2)
+    ax.set_xlabel("Predicted total_weight")
+    ax.set_ylabel("Residual")
+    ax.set_title("Linear Regression: Residual Plot")
+    save_plot(fig, "linear_regression_residuals.png")
+
+    features = X_test.columns.tolist()
+    coefficients = model.coef_
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.bar(features, coefficients, color="#d97706")
+    ax.set_title("Linear Regression: Feature Coefficients")
+    ax.set_ylabel("Coefficient value")
+    ax.set_xticks(range(len(features)))
+    ax.set_xticklabels(features, rotation=45, ha="right")
+    save_plot(fig, "linear_regression_coefficients.png")
 
 
 def train_and_evaluate_model(X, y):
@@ -134,6 +182,7 @@ def main():
 
     print("Training Linear Regression model...")
     model, _, X_test, _, y_test, predictions, metrics = train_and_evaluate_model(X, y)
+    save_model_visuals(model, X_test, y_test, predictions)
 
     test_results = prepared_df.loc[X_test.index, ["network", "student_id", "label", "total_weight"]].copy().reset_index(drop=True)
     test_results["actual_total_weight"] = y_test.reset_index(drop=True).values

@@ -15,6 +15,11 @@
           A simple graph-based study of student activity, interaction strength, and network structure
           across three learning groups: ICS, CD, and PS.
         </p>
+        <p class="project-summary-text">
+          This project analyzes how students interact inside the platform, identifies the most active and isolated users,
+          and compares two machine learning models to predict student interaction strength. The results show how network behavior and
+          activity patterns can be studied using both graph analysis and prediction models.
+        </p>
       </section>
 
       <section class="overview-grid reveal">
@@ -163,6 +168,39 @@
               <div class="metric-row"><span>RMSE</span><strong>7.6487</strong></div>
               <div class="metric-row"><span>R²</span><strong>0.8930</strong></div>
             </div>
+            <div class="chart-grid">
+              <div class="chart-item">
+                <img class="graph-preview ml-preview" src="assets/linear_regression_actual_vs_predicted.png" alt="Linear regression actual vs predicted" data-image="assets/linear_regression_actual_vs_predicted.png" data-title="Linear Regression: Actual vs Predicted" />
+                <p>Actual vs Predicted — compares real and predicted values; points close to the line mean better accuracy.</p>
+              </div>
+              <div class="chart-item">
+                <img class="graph-preview ml-preview" src="assets/linear_regression_residuals.png" alt="Linear regression residuals" data-image="assets/linear_regression_residuals.png" data-title="Linear Regression: Residual Plot" />
+                <p>Residual Plot — shows the prediction error; values near zero mean the model is more accurate.</p>
+              </div>
+              <div class="chart-item wide">
+                <img class="graph-preview ml-preview" src="assets/linear_regression_coefficients.png" alt="Linear regression coefficients" data-image="assets/linear_regression_coefficients.png" data-title="Linear Regression: Feature Coefficients" />
+                <p>Feature Coefficients — shows which input has the strongest effect on the prediction.</p>
+              </div>
+            </div>
+            <div class="training-flow">
+              <h4>Training flow</h4>
+              <ol>
+                <li>Load the student activity dataset.</li>
+                <li>Choose <strong>total_weight</strong> as the target and use student activity as the input.</li>
+                <li>Split the data into training and testing sets.</li>
+                <li>Train the model using the training data.</li>
+                <li>Compare the test predictions with the real values to judge accuracy.</li>
+              </ol>
+            </div>
+
+            <div class="plot-meaning">
+              <h4>What the plots mean</h4>
+              <p>
+                The <strong>actual vs predicted</strong> plot shows whether the model is close to the real values.
+                Points near the diagonal line mean good prediction. The <strong>residual plot</strong> checks whether the errors are small and spread evenly.
+                The <strong>coefficient plot</strong> shows which feature had the strongest effect on the prediction.
+              </p>
+            </div>
             <div class="ml-actions">
               <button class="file-link" data-file="data/linear_regression_metrics.csv" data-label="linear_regression_metrics.csv">Metrics</button>
               <button class="file-link" data-file="data/linear_regression_predictions.csv" data-label="linear_regression_predictions.csv">Predictions</button>
@@ -186,6 +224,39 @@
               <div class="metric-row"><span>MAE</span><strong>5.0199</strong></div>
               <div class="metric-row"><span>RMSE</span><strong>7.8983</strong></div>
               <div class="metric-row"><span>R²</span><strong>0.8859</strong></div>
+            </div>
+            <div class="chart-grid">
+              <div class="chart-item">
+                <img class="graph-preview ml-preview" src="assets/decision_tree_actual_vs_predicted.png" alt="Decision tree actual vs predicted" data-image="assets/decision_tree_actual_vs_predicted.png" data-title="Decision Tree: Actual vs Predicted" />
+                <p>Actual vs Predicted — compares real and predicted values; points close to the line mean better accuracy.</p>
+              </div>
+              <div class="chart-item">
+                <img class="graph-preview ml-preview" src="assets/decision_tree_residuals.png" alt="Decision tree residuals" data-image="assets/decision_tree_residuals.png" data-title="Decision Tree: Residual Plot" />
+                <p>Residual Plot — shows the prediction error; values near zero mean the model is more accurate.</p>
+              </div>
+              <div class="chart-item wide">
+                <img class="graph-preview ml-preview" src="assets/decision_tree_feature_importance.png" alt="Decision tree feature importance" data-image="assets/decision_tree_feature_importance.png" data-title="Decision Tree: Feature Importance" />
+                <p>Feature Importance — shows which feature most affects the model’s prediction.</p>
+              </div>
+            </div>
+            <div class="training-flow">
+              <h4>Training flow</h4>
+              <ol>
+                <li>Load the student activity dataset.</li>
+                <li>Choose <strong>total_weight</strong> as the target and use activity features as the input.</li>
+                <li>Split the data into training and testing sets.</li>
+                <li>Train the decision tree using the training set.</li>
+                <li>Check the tested predictions and see which features matter most.</li>
+              </ol>
+            </div>
+
+            <div class="plot-meaning">
+              <h4>What the plots mean</h4>
+              <p>
+                The <strong>actual vs predicted</strong> plot tells us how close the tree’s predictions are to the real results.
+                The <strong>residual plot</strong> shows whether the prediction mistakes are random or too large.
+                The <strong>feature importance</strong> plot explains which input had the strongest influence on the decision tree.
+              </p>
             </div>
             <div class="ml-actions">
               <button class="file-link" data-file="data/decision_tree_metrics.csv" data-label="decision_tree_metrics.csv">Metrics</button>

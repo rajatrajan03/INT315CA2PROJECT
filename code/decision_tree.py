@@ -5,8 +5,10 @@ It reads processed student activity data, trains a Decision Tree regressor,
 and saves metrics and predictions in the output folder.
 """
 
+import shutil
 from pathlib import Path
 
+import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
@@ -17,6 +19,8 @@ OUTPUT_DIR = PROJECT_DIR / "output"
 STUDENT_ACTIVITY_PATH = OUTPUT_DIR / "student_activity.csv"
 METRICS_PATH = OUTPUT_DIR / "decision_tree_metrics.csv"
 PREDICTIONS_PATH = OUTPUT_DIR / "decision_tree_predictions.csv"
+PLOT_DIR = OUTPUT_DIR / "decision_tree_plots"
+SITE_ASSET_DIR = PROJECT_DIR / "showcase_site" / "assets"
 
 
 def load_student_activity_data():
@@ -53,6 +57,50 @@ def prepare_features_and_target(df):
     y = working_df["total_weight"]
 
     return X, y, working_df
+
+
+def save_plot(fig, file_name):
+    """Save a plot in the output folder and in the site assets folder."""
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
+    SITE_ASSET_DIR.mkdir(parents=True, exist_ok=True)
+
+    output_path = PLOT_DIR / file_name
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=200)
+    shutil.copy2(output_path, SITE_ASSET_DIR / file_name)
+    plt.close(fig)
+
+
+def save_model_visuals(model, X_test, y_test, predictions):
+    """Create plots that explain how the tree-based model behaves."""
+    fig, ax = plt.subplots(figsize=(7, 6))
+    ax.scatter(y_test, predictions, alpha=0.8, color="#1f5f99")
+    min_value = min(y_test.min(), predictions.min())
+    max_value = max(y_test.max(), predictions.max())
+    ax.plot([min_value, max_value], [min_value, max_value], "r--", linewidth=1.5)
+    ax.set_xlabel("Actual total_weight")
+    ax.set_ylabel("Predicted total_weight")
+    ax.set_title("Decision Tree: Actual vs Predicted")
+    save_plot(fig, "decision_tree_actual_vs_predicted.png")
+
+    residuals = y_test.to_numpy() - predictions
+    fig, ax = plt.subplots(figsize=(7, 6))
+    ax.scatter(predictions, residuals, alpha=0.8, color="#1d7a6f")
+    ax.axhline(0, color="black", linestyle="--", linewidth=1.2)
+    ax.set_xlabel("Predicted total_weight")
+    ax.set_ylabel("Residual")
+    ax.set_title("Decision Tree: Residual Plot")
+    save_plot(fig, "decision_tree_residuals.png")
+
+    importances = model.feature_importances_
+    feature_names = X_test.columns.tolist()
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.bar(feature_names, importances, color="#8b5cf6")
+    ax.set_title("Decision Tree: Feature Importance")
+    ax.set_ylabel("Importance")
+    ax.set_xticks(range(len(feature_names)))
+    ax.set_xticklabels(feature_names, rotation=45, ha="right")
+    save_plot(fig, "decision_tree_feature_importance.png")
 
 
 def train_and_evaluate_model(X, y):
@@ -125,6 +173,7 @@ def main():
 
     print("Training Decision Tree model...")
     model, X_test, y_test, predictions, metrics = train_and_evaluate_model(X, y)
+    save_model_visuals(model, X_test, y_test, predictions)
 
     test_results = prepared_df.loc[X_test.index, ["network", "student_id", "label"]].copy().reset_index(drop=True)
     test_results["actual_total_weight"] = y_test.reset_index(drop=True).values

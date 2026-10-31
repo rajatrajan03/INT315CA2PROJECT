@@ -19,6 +19,8 @@ function openGraphModal(imageSrc, title) {
   graphTitle.textContent = title;
   graphDownload.href = imageSrc;
   graphDownload.setAttribute('download', title.replace(/\s+/g, '_') + '.png');
+  graphImage.style.transform = 'scale(1)';
+  graphImage.dataset.scale = '1';
   graphModal.classList.add('show');
 }
 
